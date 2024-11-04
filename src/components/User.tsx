@@ -2,15 +2,19 @@ import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import {useQuery, gql} from '@apollo/client';
 import {GET_POST} from './Query';
 
-const User = () => {
-  const {loading, error, data} = useQuery(GET_POST);
+const User = ({userID}) => {
+  const {loading, error, data} = useQuery(GET_POST, {
+    variables: {
+      uid: userID,
+    },
+  });
 
   return (
     <View style={styles.container}>
       {loading ? (
         <ActivityIndicator size={'large'} color={'purple'} />
       ) : error ? (
-        <Text>{error.message}</Text>
+        <Text style={styles.errorTxt}>{error.message}</Text>
       ) : (
         <View style={styles.content}>
           <Text style={styles.titleTxt}>{data.user.username}</Text>
@@ -33,6 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 8,
   },
 
   content: {
@@ -50,5 +55,10 @@ const styles = StyleSheet.create({
   bodyTxt: {
     fontSize: 15,
     color: 'gray',
+  },
+
+  errorTxt: {
+    color: 'red',
+    fontWeight: 'bold',
   },
 });

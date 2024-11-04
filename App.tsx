@@ -18,7 +18,10 @@ const App = () => {
   return (
     <ApolloProvider client={clientConfig}>
       <View style={styles.container}>
-        <User />
+        <User userID={1} />
+        <User userID={2} />
+        <User userID={3} />
+        <User userID={4} />
       </View>
     </ApolloProvider>
   );
