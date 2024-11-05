@@ -1,11 +1,14 @@
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import {useQuery, gql} from '@apollo/client';
 import {GET_POST} from './Query';
+import {useRoute} from '@react-navigation/native';
 
-const User = ({userID}) => {
+const User = () => {
+  const route = useRoute();
+
   const {loading, error, data} = useQuery(GET_POST, {
     variables: {
-      uid: userID,
+      uid: route.params?.id,
     },
   });
 
@@ -31,9 +34,10 @@ export default User;
 
 const styles = StyleSheet.create({
   container: {
-    width: 300,
-    height: 150,
-    backgroundColor: '#EAEAEA',
+    // width: 300,
+    // height: 150,
+    flex: 1,
+    backgroundColor: 'white', //'#EAEAEA',
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
