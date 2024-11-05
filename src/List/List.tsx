@@ -1,5 +1,12 @@
 import {useQuery} from '@apollo/client';
-import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import {GET_USER_LIST} from './Query';
 import {useNavigation} from '@react-navigation/native';
 
@@ -7,7 +14,15 @@ const Item = ({id, username}) => {
   const nav = useNavigation();
 
   return (
-    <View style={{width: '100%', height: 60, flexDirection: 'row'}}>
+    <View
+      style={{
+        width: '100%',
+        height: 60,
+        flexDirection: 'row',
+        backgroundColor: 'silver',
+        marginTop: 4,
+        paddingHorizontal: 2,
+      }}>
       <View
         style={{
           flex: 2,
@@ -28,12 +43,17 @@ const Item = ({id, username}) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: 'darkgray',
+          borderWidth: 1,
+          borderColor: 'gray',
         }}>
         <Pressable
           onPress={() => {
             nav.navigate('User', {id: id});
           }}>
-          <Text style={{fontSize: 30, color: '#000'}}>{'>'}</Text>
+          <Text style={{fontSize: 18, color: 'blue', fontStyle: 'italic'}}>
+            Info...
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -45,11 +65,15 @@ const List = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{width: '100%'}}>
-        {data.users.data.map((item, index) => (
-          <Item key={index} id={item.id} username={item.username} />
-        ))}
-      </ScrollView>
+      {loading ? (
+        <ActivityIndicator size={'large'} color={'purple'} />
+      ) : (
+        <ScrollView style={{width: '100%'}}>
+          {data?.users?.data.map((item, index) => (
+            <Item key={index} id={item.id} username={item.username} />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
